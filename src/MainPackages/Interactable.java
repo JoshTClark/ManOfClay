@@ -19,23 +19,27 @@ public class Interactable {
      *
      * [3] = left of hitbox.
      */
-    private Interactable[] collision;
-    private int x, y, h, w, spdHorz, spdVert;
+    private final Interactable[] collision;
+    private final int h, w;
+    private int x, y, spdHorz, spdVert, maxSpdHorz, maxSpdVert, accel, maxGravSpd, curGravSpd, maxJump;
     private Sprite spr;
+    private boolean gravity;
 
     /**
      * Initializes the instance variables and adds the new Interactable to the
      * static ArrayList.
      *
-     * @param nx The x position of the Interactable.
-     * @param ny The y position of the Interactable.
+     * @param nx The x position of the instance.
+     * @param ny The y position of the instance.
      * @param nw The width of the hitbox.
      * @param nh The height of the hitbox.
-     * @param s The sprite of the Interactable.
+     * @param mxSpdH The maximum horizontal speed the instance can move.
+     * @param mnSpdV The maximum vertical speed the instance can move.
+     * @param maxJ The maximum jump height of the instance.
+     * @param s The sprite of the instance.
      */
-    public Interactable(int nx, int ny, int nw, int nh, Sprite s) {
+    public Interactable(int nx, int ny, int nw, int nh, int mxSpdH, int mnSpdV, int maxJ, Sprite s) {
         collision = new Interactable[]{null, null, null, null};
-        allInteracts.add(this);
         x = nx;
         y = ny;
         w = nw;
@@ -44,6 +48,10 @@ public class Interactable {
         spdVert = 0;
         spr = s;
         spr.startAnimation();
+        gravity = false;
+        accel = 0;
+        maxGravSpd = 0;
+        maxJump = maxJ;
     }
 
     /**
@@ -56,6 +64,7 @@ public class Interactable {
     }
 
     /**
+     * Changes the object the instance is colliding with on a specific side.
      *
      * @param i The Interactable the instance is colliding with.
      * @param side The numerical side of the instance (as described above the
@@ -73,8 +82,35 @@ public class Interactable {
     }
 
     /**
+     * Returns the collision array that has a reference to every object the
+     * instance is colliding with.
+     *
+     * @return The array of all the Interactables the instance is colliding
+     * with. In the array [0] = the top of the hitbox, [1] = the right of the
+     * hitbox, [2] = the bottom of the hitbox, and [3] = the left of the hitbox.
+     */
+    public Interactable[] getCollision() {
+        return collision;
+    }
+
+    /**
+     * This returns the Interactable that is colliding with the player on a
+     * specific side.
+     *
+     * @param side The side of the instance to check where [0] = the top of the
+     * hitbox, [1] = the right of the hitbox, [2] = the bottom of the hitbox,
+     * and [3] = the left of the hitbox.
+     *
+     * @return The Interactable colliding with the instance on the specific
+     * side.
+     */
+    public Interactable getCollision(int side) {
+        return collision[side];
+    }
+
+    /**
      * Changes the sprite of the instance.
-     * 
+     *
      * @param s The new sprite.
      */
     public void setSprite(Sprite s) {
@@ -90,6 +126,35 @@ public class Interactable {
      */
     public void draw(Graphics g) {
         g.drawImage(spr.getImage(), x, y, null);
+    }
+
+    /**
+     * Sets the properties of gravity for an instance.
+     *
+     * @param a This is the acceleration of gravity. A positive value means
+     * gravity effects the instance more. A negative value means the move
+     * upwards.
+     * @param max This is the maximum speed achieved by the instance because of
+     * gravity.
+     * @param g This is true if gravity effects the instance.
+     */
+    public void setGravity(int a, int max, boolean g) {
+        accel = a;
+        maxGravSpd = max;
+        gravity = g;
+    }
+
+    public void updateGravity() {
+        if (getCollision(2) instanceof Interactable) {
+            curGravSpd = 0;
+        } else {
+            curGravSpd += accel;
+            if (curGravSpd >= maxGravSpd) {
+                curGravSpd = maxGravSpd;
+            }
+            move(0, -1 * curGravSpd);
+        }
+
     }
 
     /**
@@ -129,6 +194,9 @@ public class Interactable {
      */
     public void changeSpeedHorz(int cSpd) {
         spdHorz += cSpd;
+        if (Math.abs(spdHorz) >= maxSpdHorz) {
+            spdHorz = maxSpdHorz;
+        }
     }
 
     /**
@@ -138,6 +206,9 @@ public class Interactable {
      */
     public void setSpeedHorz(int nSpd) {
         spdHorz = nSpd;
+        if (Math.abs(spdHorz) >= maxSpdHorz) {
+            spdHorz = maxSpdHorz;
+        }
     }
 
     /**
@@ -147,6 +218,9 @@ public class Interactable {
      */
     public void changeSpeedVert(int cSpd) {
         spdVert += cSpd;
+        if (Math.abs(spdVert) >= maxSpdVert) {
+            spdVert = maxSpdVert;
+        }
     }
 
     /**
@@ -156,5 +230,12 @@ public class Interactable {
      */
     public void setSpeedVert(int nSpd) {
         spdVert = nSpd;
+        if (Math.abs(spdVert) >= maxSpdVert) {
+            spdVert = maxSpdVert;
+        }
+    }
+
+    public void jump() {
+        changeSpeedVert(5);
     }
 }

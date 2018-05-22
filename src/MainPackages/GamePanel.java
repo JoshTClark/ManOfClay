@@ -62,6 +62,14 @@ public class GamePanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             repaint();
+            if (movement[0]) {
+                player.jump();
+            } else if (movement[1]) {
+                player.changeSpeedHorz(1);
+            } else if (movement[2]) {
+                player.changeSpeedHorz(-1);
+            }
+            player.move();
         }
     }
 }
