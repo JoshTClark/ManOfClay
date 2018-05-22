@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class GamePanel extends JPanel {
-    //Hello this is test
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
