@@ -113,28 +113,40 @@ public class Sprite {
         curImage = spriteSheet.get(0);
     }
 
-    // Sets the speed of the animation
+    /**
+     * Sets the speed of the animation to a new value.
+     *
+     * @param s The new speed in frames per second.
+     */
     public void setSpeed(int s) {
         if (isSpriteSheet) {
             speed = (int) (1000 / s);
         }
     }
 
-    // Starts animating the sprite
+    /**
+     * Starts animating the sprite.
+     */
     public void startAnimation() {
         if (isSpriteSheet) {
             anim.start();
         }
     }
 
-    // Stops animating the sprite
+    /**
+     * Stops animating the sprite.
+     */
     public void stopAnimation() {
         if (isSpriteSheet) {
             anim.interrupt();
         }
     }
 
-    // Returns the curent sprite
+    /**
+     * Returns the current sprite
+     * 
+     * @return The current sprite being displayed.
+     */
     public BufferedImage getImage() {
         return curImage;
     }
