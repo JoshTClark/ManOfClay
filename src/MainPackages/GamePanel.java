@@ -3,7 +3,6 @@ package MainPackages;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.event.KeyEvent;
-import static java.lang.Thread.sleep;
 import java.util.logging.Logger;
 
 import javax.swing.*;
@@ -13,7 +12,6 @@ public class GamePanel extends JPanel {
     private final Player player;
     private final KeyLsn keylsn;
     private final javax.swing.Timer timer;
-    private final Thread movementThread;
     /**
      * [0] Jump - Space bar pressed.
      *
@@ -32,8 +30,6 @@ public class GamePanel extends JPanel {
         movement = new boolean[]{false, false, false};
         timer = new javax.swing.Timer(5, new TimerListener());
         timer.start();
-        movementThread = new Thread(new Runner());
-        movementThread.start();
     }
 
     @Override
