@@ -144,6 +144,9 @@ public class Interactable {
         gravity = g;
     }
 
+    /**
+     * Updates the effects of gravity on the instance.
+     */
     public void updateGravity() {
         if (getCollision(2) instanceof Interactable) {
             curGravSpd = 0;
@@ -193,10 +196,10 @@ public class Interactable {
      * @param cSpd The change in the speed.
      */
     public void changeSpeedHorz(int cSpd) {
-        spdHorz += cSpd;
         if (Math.abs(spdHorz) >= maxSpdHorz) {
             spdHorz = maxSpdHorz;
         }
+        spdHorz += cSpd;
     }
 
     /**
@@ -217,10 +220,10 @@ public class Interactable {
      * @param cSpd The change in the speed.
      */
     public void changeSpeedVert(int cSpd) {
-        spdVert += cSpd;
         if (Math.abs(spdVert) >= maxSpdVert) {
             spdVert = maxSpdVert;
         }
+        spdVert += cSpd;
     }
 
     /**
@@ -236,6 +239,6 @@ public class Interactable {
     }
 
     public void jump() {
-        changeSpeedVert(5);
+        changeSpeedVert(-5);
     }
 }
