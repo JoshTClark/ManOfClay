@@ -3,6 +3,8 @@ package MainPackages;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+// We shoud store the x and y values in a Point2D object so we can adjust the speed by very small decimals, and adjust all variables and methods to account for this.
+
 /**
  * This class will mainly be used as a superclass. Classes that extend it will
  * function together with collision and taking and dealing damage.
