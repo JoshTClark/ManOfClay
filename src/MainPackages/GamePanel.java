@@ -96,18 +96,4 @@ public class GamePanel extends JPanel {
             repaint();
         }
     }
-
-    private class Runner extends Thread {
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    sleep(250);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Sprite.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
 }
