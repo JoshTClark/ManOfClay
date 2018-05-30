@@ -34,7 +34,7 @@ public class MainFrame extends JFrame {
         width = (int) screenSize.getWidth();
 
         // The panel where all the game stuff goes
-        gamePanel = new GamePanel();
+        gamePanel = new GamePanel(width, height);
         gamePanel.setPreferredSize(new Dimension(width, height));
         gamePanel.setLayout(null);
 

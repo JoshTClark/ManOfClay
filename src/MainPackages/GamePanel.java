@@ -3,7 +3,6 @@ package MainPackages;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.event.KeyEvent;
-import java.util.logging.Logger;
 
 import javax.swing.*;
 
@@ -11,23 +10,21 @@ public class GamePanel extends JPanel {
 
     private final Player player;
     private final KeyLsn keylsn;
+    private final int height, width;
     private final javax.swing.Timer timer;
-    /**
-     * [0] Jump - Space bar pressed.
-     *
-     * [1] Move right - "A" or right arrow pressed.
-     *
-     * [2] Move left - "D" or left arrow pressed.
-     */
-    private final boolean[] movement;
+    private boolean left, right, jumping;
 
-    public GamePanel() {
+    public GamePanel(int w, int h) {
+        height = h;
+        width = w;
         setFocusable(true);
         requestFocusInWindow();
         player = new Player(100, 100);
         keylsn = new KeyLsn();
         addKeyListener(keylsn);
-        movement = new boolean[]{false, false, false};
+        jumping = false;
+        right = false;
+        left = false;
         timer = new javax.swing.Timer(5, new TimerListener());
         timer.start();
     }
@@ -43,36 +40,34 @@ public class GamePanel extends JPanel {
         @Override
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_SPACE:
-                    movement[0] = true;
-                    break;
                 case KeyEvent.VK_RIGHT:
-                    movement[1] = true;
+                    right = true;
                     break;
                 case KeyEvent.VK_LEFT:
-                    movement[2] = true;
+                    left = true;
                     break;
                 default:
-                    player.move(2, 2);
                     break;
             }
+            player.move(right, left);
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_SPACE:
-                    movement[0] = false;
-                    break;
                 case KeyEvent.VK_RIGHT:
-                    movement[1] = false;
+                    right = false;
                     break;
                 case KeyEvent.VK_LEFT:
-                    movement[2] = false;
+                    left = false;
+                    break;
+                case KeyEvent.VK_SPACE:
+                    left = true;
                     break;
                 default:
                     break;
             }
+            player.move(right, left);
         }
     }
 
@@ -80,15 +75,8 @@ public class GamePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (movement[0]) {
-                player.jump();
-            } else if (movement[1]) {
-                player.changeSpeedHorz(1);
-            } else if (movement[2]) {
-                player.changeSpeedHorz(-1);
-            }
             requestFocusInWindow();
-            player.move();
+            player.update();
             repaint();
         }
     }

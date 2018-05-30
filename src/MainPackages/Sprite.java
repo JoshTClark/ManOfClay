@@ -142,9 +142,13 @@ public class Sprite {
         }
     }
 
+    public int getScale() {
+        return scale;
+    }
+
     /**
      * Returns the current sprite
-     * 
+     *
      * @return The current sprite being displayed.
      */
     public BufferedImage getImage() {
