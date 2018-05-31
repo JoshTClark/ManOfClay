@@ -19,8 +19,9 @@ public class Player {
         right = false;
         left = false;
         isJumping = false;
-        jumpSpeed = 0.2;
+        jumpSpeed = 5;
         isFalling = false;
+        fallSpeed = 0;
         hitbox = new Rectangle2D.Double(x, y, spr.getWidth(), spr.getHeight());
         test = new Tile(200, 400, 96, 96);
     }
@@ -53,10 +54,20 @@ public class Player {
             x -= 2;
         }
         if (isJumping) {
-            jumpSpeed += 0.2;
-            y += jumpSpeed;
+            if (jumpSpeed > 0) {
+                jumpSpeed -= 0.2;
+                y -= jumpSpeed;
+            } else {
+                jumpSpeed = 5;
+                isFalling = true;
+                isJumping = false;
+            }
         } else if (isFalling) {
-            y += 5;
+            fallSpeed += 0.1;
+            y += fallSpeed;
+        }
+        if( !(isFalling)){
+            fallSpeed = 0;
         }
         hitbox.setFrame(x, y, 96, 96);
     }

@@ -47,7 +47,7 @@ public class GamePanel extends JPanel {
                     left = true;
                     break;
                 case KeyEvent.VK_SPACE:
-                    left = true;
+                    jumping = true;
                     break;
                 default:
                     break;
@@ -65,7 +65,7 @@ public class GamePanel extends JPanel {
                     left = false;
                     break;
                 case KeyEvent.VK_SPACE:
-                    left = false;
+                    jumping = false;
                     break;
                 default:
                     break;
@@ -79,6 +79,9 @@ public class GamePanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             requestFocusInWindow();
+            if (jumping) {
+                player.jump();
+            }
             player.update();
             repaint();
         }
