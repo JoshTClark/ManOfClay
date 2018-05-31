@@ -1,6 +1,8 @@
 package MainPackages;
 
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.*;
@@ -17,14 +19,11 @@ import java.util.logging.*;
  */
 public class Sprite {
 
-    private BufferedImage sprite;
+    private BufferedImage sprite, curImage;
     private final ArrayList<BufferedImage> spriteSheet;
-    private BufferedImage curImage;
-    private int curImgNum;
     private final boolean isSpriteSheet;
-    private int speed;
+    private int speed, scale, w, h, curImgNum;
     private Thread anim;
-    private int scale;
 
     /**
      * This is the constructor used for a non-animated sprite.
@@ -47,6 +46,8 @@ public class Sprite {
         isSpriteSheet = false;
         spriteSheet = null;
         anim = null;
+        h = height * scale;
+        w = width * scale;
         curImgNum = 0;
         try {
             sprite = ImageIO.read(new File(path));
@@ -146,6 +147,14 @@ public class Sprite {
         return scale;
     }
 
+    public int getWidth() {
+        return w;
+    }
+
+    public int getHeight() {
+        return h;
+    }
+
     /**
      * Returns the current sprite
      *
@@ -153,6 +162,16 @@ public class Sprite {
      */
     public BufferedImage getImage() {
         return curImage;
+    }
+
+    public void draw(Graphics g, double x, double y) {
+        Graphics2D g2d = (Graphics2D) g;
+        AffineTransform originalTransform = g2d.getTransform();
+        BufferedImage image = getImage();
+        g2d.translate(x, y);
+        g2d.scale(1, 1);
+        g2d.drawImage(image, 0, 0, null);
+        g2d.setTransform(originalTransform);
     }
 
     private class AnimThread extends Thread {

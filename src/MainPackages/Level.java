@@ -28,7 +28,7 @@ public class Level {
             case HARD:
                 clearCurrentLevel();
             default:
-                clearCurrentLevel()
+                clearCurrentLevel();
             
         }
     }

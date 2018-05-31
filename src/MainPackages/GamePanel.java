@@ -25,7 +25,7 @@ public class GamePanel extends JPanel {
         jumping = false;
         right = false;
         left = false;
-        timer = new javax.swing.Timer(5, new TimerListener());
+        timer = new javax.swing.Timer(1, new TimerListener());
         timer.start();
     }
 
@@ -46,6 +46,9 @@ public class GamePanel extends JPanel {
                 case KeyEvent.VK_LEFT:
                     left = true;
                     break;
+                case KeyEvent.VK_SPACE:
+                    left = true;
+                    break;
                 default:
                     break;
             }
@@ -62,7 +65,7 @@ public class GamePanel extends JPanel {
                     left = false;
                     break;
                 case KeyEvent.VK_SPACE:
-                    left = true;
+                    left = false;
                     break;
                 default:
                     break;

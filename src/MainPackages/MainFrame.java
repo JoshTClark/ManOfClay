@@ -12,8 +12,7 @@ public class MainFrame extends JFrame {
     private final int width;
     private final int height;
     private final GamePanel gamePanel;
-    private final GridSystem grid;
-    private final Level lvlTest, lvl1, lvl2, lvl3;
+    private final Level lvlTest;
 
     /**
      * Initializes the instance variables and sets up the frame.
@@ -38,14 +37,8 @@ public class MainFrame extends JFrame {
         gamePanel.setPreferredSize(new Dimension(width, height));
         gamePanel.setLayout(null);
 
-        // Setting up the grid system
-        grid = new GridSystem(gamePanel, height, width);
-
         // Setting up the levels
-        lvlTest = new Level();
-        lvl1 = new Level();
-        lvl2 = new Level();
-        lvl3 = new Level();
+        lvlTest = new Level("Easy");
 
         // Adding the GamePanel and packing
         getContentPane().add(gamePanel);

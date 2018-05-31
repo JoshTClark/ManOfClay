@@ -1,14 +1,15 @@
 package MainPackages;
 
 import java.awt.Graphics;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 
 public class Player {
 
     private final Sprite spr;
-    private double x, y;
+    private double x, y, jumpSpeed, fallSpeed;
     private boolean right, left, isJumping, isFalling;
-    private final Rectangle2D rec;
+    private final Rectangle2D hitbox;
+    public Tile test;
 
     public Player(int nx, int ny) {
         x = nx;
@@ -18,11 +19,15 @@ public class Player {
         right = false;
         left = false;
         isJumping = false;
+        jumpSpeed = 0.2;
         isFalling = false;
-        rec = new Rectangle2D.Double(32, 32, x, y);
+        hitbox = new Rectangle2D.Double(x, y, spr.getWidth(), spr.getHeight());
+        test = new Tile(200, 400, 96, 96);
     }
 
     public void draw(Graphics g) {
+        spr.draw(g, x, y);
+        test.draw(g);
     }
 
     public void move(boolean b1, boolean b2) {
@@ -31,17 +36,28 @@ public class Player {
     }
 
     public void jump() {
-        isJumping = true;
+        if (!(isFalling)) {
+            isJumping = true;
+        }
     }
 
     public void update() {
+        if (hitbox.intersects(test.getHitbox())) {
+            isFalling = false;
+        } else {
+            isFalling = true;
+        }
         if (right) {
             x += 2;
         } else if (left) {
             x -= 2;
         }
         if (isJumping) {
-
+            jumpSpeed += 0.2;
+            y += jumpSpeed;
+        } else if (isFalling) {
+            y += 5;
         }
+        hitbox.setFrame(x, y, 96, 96);
     }
 }
