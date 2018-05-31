@@ -6,7 +6,8 @@ import java.awt.geom.*;
 public class Player {
 
     private final Sprite spr;
-    private double x, y, jumpSpeed, fallSpeed;
+    private double x, y, curJumpSpeed, curFallSpeed;
+    private final double jumpSpeed, fallAccel, jumpDecel;
     private boolean right, left, isJumping, isFalling;
     private final Rectangle2D hitbox;
     public Tile test;
@@ -19,11 +20,14 @@ public class Player {
         right = false;
         left = false;
         isJumping = false;
-        jumpSpeed = 5;
+        jumpSpeed = 7;
+        jumpDecel = 0.2;
+        curJumpSpeed = jumpSpeed;
         isFalling = false;
-        fallSpeed = 0;
+        fallAccel = 0.2;
+        curJumpSpeed = 0;
         hitbox = new Rectangle2D.Double(x, y, spr.getWidth(), spr.getHeight());
-        test = new Tile(200, 400, 96, 96);
+        test = new Tile(100, 400, 96, 96);
     }
 
     public void draw(Graphics g) {
@@ -54,20 +58,20 @@ public class Player {
             x -= 2;
         }
         if (isJumping) {
-            if (jumpSpeed > 0) {
-                jumpSpeed -= 0.2;
-                y -= jumpSpeed;
+            if (curJumpSpeed > 0) {
+                curJumpSpeed -= jumpDecel;
+                y -= curJumpSpeed;
             } else {
-                jumpSpeed = 5;
+                curJumpSpeed = jumpSpeed;
                 isFalling = true;
                 isJumping = false;
             }
         } else if (isFalling) {
-            fallSpeed += 0.1;
-            y += fallSpeed;
+            curFallSpeed += fallAccel;
+            y += curFallSpeed;
         }
         if( !(isFalling)){
-            fallSpeed = 0;
+            curFallSpeed = 0;
         }
         hitbox.setFrame(x, y, 96, 96);
     }
