@@ -42,7 +42,15 @@ public class Player {
         right = b1;
         left = b2;
     }
-
+    
+    public double getPlayerX() {
+        return x;
+    }
+    
+    public double getPlayerY() {
+        return y;
+    }
+    
     public void jump() {
         if (!(isFalling)) {
             isJumping = true;
