@@ -5,8 +5,9 @@ import java.awt.geom.*;
 
 public class Tile {
 
-    double x, y, w, h;
+    private double x, y, w, h;
     private final Rectangle2D hitbox, colored;
+    private final boolean isNull;
 
     public Tile(int nx, int ny, int width, int height) {
         x = nx;
@@ -14,7 +15,18 @@ public class Tile {
         w = width;
         h = height;
         hitbox = new Rectangle2D.Double(x, y, h, w);
-        colored = new Rectangle2D.Double( x +5, y+5, h-10, w-10 );
+        colored = new Rectangle2D.Double(x + 5, y + 5, h - 10, w - 10);
+        isNull = false;
+    }
+
+    public Tile() {
+        x = 0;
+        y = 0;
+        w = 0;
+        h = 0;
+        hitbox = new Rectangle2D.Double(x, y, h, w);
+        colored = new Rectangle2D.Double(x, y, h, w );
+        isNull = true;
     }
 
     public Rectangle2D getHitbox() {
@@ -30,8 +42,13 @@ public class Tile {
     }
 
     public void update() {
-        hitbox.setFrame(x, y, 96, 96);
-        colored.setFrame( x +5, y+5, 86, 86 );
+        if (!(isNull)) {
+            hitbox.setFrame(x, y, w, h);
+            colored.setFrame(x + 5, y + 5, w-10, h-10);
+        }
     }
 
+    public boolean isNull() {
+        return isNull;
+    }
 }

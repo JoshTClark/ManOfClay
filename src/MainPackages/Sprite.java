@@ -103,6 +103,8 @@ public class Sprite {
             sprHeight *= scale;
             width *= scale;
             height *= scale;
+            w = sprWidth;
+            h = sprHeight;
         }
 
         // This goes through the entire sprite sheet and makes a new image out of every sprite on it

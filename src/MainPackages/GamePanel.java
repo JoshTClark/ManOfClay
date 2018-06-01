@@ -13,18 +13,21 @@ public class GamePanel extends JPanel {
     private final int height, width;
     private final javax.swing.Timer timer;
     private boolean left, right, jumping;
+    private final Grid grid;
 
     public GamePanel(int w, int h) {
         height = h;
         width = w;
         setFocusable(true);
         requestFocusInWindow();
-        player = new Player(100, 100);
+        grid = new Grid();
+        player = new Player(100, 100, grid);
         keylsn = new KeyLsn();
         addKeyListener(keylsn);
         jumping = false;
         right = false;
         left = false;
+        grid.addTiles(0, 6, 10, 6);
         timer = new javax.swing.Timer(1, new TimerListener());
         timer.start();
     }
@@ -33,6 +36,7 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         player.draw(g);
+        grid.update(g);
     }
 
     private class KeyLsn extends KeyAdapter {
@@ -82,8 +86,9 @@ public class GamePanel extends JPanel {
             if (jumping) {
                 player.jump();
             }
-            player.update();
             repaint();
+            player.updateCollision();
+            player.update();
         }
     }
 }
